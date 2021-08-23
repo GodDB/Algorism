@@ -1,5 +1,9 @@
 import java.util.*
 
+/**
+ * https://www.acmicpc.net/problem/2630
+ * */
+
 var whiteCnt : Int = 0
 var blueCnt : Int = 0
 

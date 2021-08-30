@@ -37,7 +37,7 @@ fun main() {
     println("$max")
 }
 
-fun bfs1(
+private fun bfs1(
     arr: List<List<Int>>,
     visitList: MutableList<MutableList<Boolean>>,
     resultList: MutableList<MutableList<Int>>,

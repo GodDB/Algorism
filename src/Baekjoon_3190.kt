@@ -2,7 +2,7 @@ import java.util.*
 
 /** https://www.acmicpc.net/problem/3190 */
 
-data class Point(val x : Int, val y : Int)
+private data class Point(val x : Int, val y : Int)
 
 fun main() {
     val scan = Scanner(System.`in`)

@@ -27,7 +27,7 @@ fun main() {
     println("$blueCnt")
 }
 
-fun recursionSearch(arr : List<List<Int>>, fromI: Int, toI: Int, fromJ: Int, toJ: Int) {
+private fun recursionSearch(arr : List<List<Int>>, fromI: Int, toI: Int, fromJ: Int, toJ: Int) {
     if(fromI > toI || fromJ > toJ) return
 
 
@@ -45,7 +45,7 @@ fun recursionSearch(arr : List<List<Int>>, fromI: Int, toI: Int, fromJ: Int, toJ
     }
 }
 
-fun checkIsEquals(arr: List<List<Int>>, fromI: Int, toI: Int, fromJ: Int, toJ: Int) : Boolean {
+private fun checkIsEquals(arr: List<List<Int>>, fromI: Int, toI: Int, fromJ: Int, toJ: Int) : Boolean {
     val tempValue : Int = arr[fromI][fromJ]
     for (i in fromI..toI) {
         for (j in fromJ..toJ) {

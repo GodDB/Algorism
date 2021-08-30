@@ -33,7 +33,7 @@ fun main() {
     println("$sum")
 }
 
-fun dfs(
+private fun dfs(
     arr: List<List<Int>>,
     visitList: MutableList<Boolean>,
     resultList: MutableList<Int>,

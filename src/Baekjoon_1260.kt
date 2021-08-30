@@ -30,7 +30,7 @@ fun main() {
 }
 
 
-fun dfs(arr: List<List<Int>>, startIndex: Int) {
+private fun dfs(arr: List<List<Int>>, startIndex: Int) {
     visitList[startIndex] = true
     print("$startIndex ")
 
@@ -41,7 +41,7 @@ fun dfs(arr: List<List<Int>>, startIndex: Int) {
     }
 }
 
-fun bfs(arr : List<List<Int>>, startIndex: Int) {
+private fun bfs(arr : List<List<Int>>, startIndex: Int) {
 
     val queue : Queue<Int> = LinkedList()
     queue.add(startIndex)

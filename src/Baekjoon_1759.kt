@@ -1,5 +1,7 @@
 import java.util.*
 
+/** https://www.acmicpc.net/problem/1759 */
+
 private val vowelList: List<Char> = listOf('a', 'e', 'i', 'o', 'u')
 
 fun main() {

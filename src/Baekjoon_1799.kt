@@ -41,7 +41,7 @@ private fun backTracking(
 
     for (i in point.x .. max) {
         // x값이 index를 넘었다.
-        if (i >= max) {
+        if (i == max) {
             backTracking(point.copy(x = 0, y = point.y + 1), arr, visitList, sum, max)
             return
         }
@@ -51,7 +51,6 @@ private fun backTracking(
         }
 
         visitList[i][point.y] = true
-        println("${point.x}   ${point.y}  ${sum+1}")
         backTracking(point.copy(x = i + 1), arr, visitList, sum + 1, max)
         visitList[i][point.y] = false
     }
@@ -60,6 +59,7 @@ private fun backTracking(
 private fun diagonalLine(x: Int, y: Int, visitList: List<List<Boolean>>): Boolean {
     for (i in 0 .. x) {
         for (j in 0 .. y) {
+            if(i == x && j == y) return false
             //방문 했으며, 대각선일 경우 true
             if (visitList[i][j] && ((i - j == x - y) || (i + j == x + y))) return true
         }

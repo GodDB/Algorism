@@ -33,9 +33,90 @@ fun main() {
         }
     }
 
-    backTracking(1, arr, pos1!!, pos2!!, n, m)
-    if (result5 == Int.MAX_VALUE) println("-1")
-    else println("${result5}")
+    bfs(arr, pos1!!, pos2!!, n, m)
+    /* backTracking(1, arr, pos1!!, pos2!!, n, m)*/
+    /* if (result5 == Int.MAX_VALUE) println("-1")
+     else println("${result5}")*/
+}
+
+private fun bfs(arr: List<List<String>>, _pos1: Position, _pos2: Position, n: Int, m: Int) {
+    val queue: Queue<Position> = LinkedList<Position>().apply {
+        add(_pos1)
+        add(_pos2)
+    }
+
+    val pos1Visit: MutableList<MutableList<Boolean>> = MutableList(n) { MutableList(m) { false } }
+    val pos2Visit = MutableList(n) { MutableList<Boolean>(m) { false } }
+
+    var moveCnt = 0
+    var isComplete: Boolean = false
+    while (queue.isNotEmpty()) {
+        if (isComplete) break
+        if (moveCnt >= 10) {
+            println("-1")
+            isComplete = true
+            break
+        }
+        val pos1 = queue.poll()
+        val pos2 = queue.poll()
+
+        for (i in 0 until 4) {
+            val pos1_x = pos1.x + cx2[i]
+            val pos1_y = pos1.y + cy2[i]
+            val pos2_x = pos2.x + cx2[i]
+            val pos2_y = pos2.y + cy2[i]
+
+            //둘다 나가면 pass
+            if (pos1_x < 0 && (pos2_x >= n || pos2_x < 0 || pos2_y < 0 || pos2_y >= m)) continue
+            if (pos1_y < 0 && (pos2_x >= n || pos2_x < 0 || pos2_y < 0 || pos2_y >= m)) continue
+            if (pos1_x >= n && (pos2_x >= n || pos2_x < 0 || pos2_y < 0 || pos2_y >= m)) continue
+            if (pos1_y >= m && (pos2_x >= n || pos2_x < 0 || pos2_y < 0 || pos2_y >= m)) continue
+
+            //둘중 하나 나가면 Good
+            if (pos1_x < 0 || pos2_x < 0 || pos1_y < 0 || pos2_y < 0 || pos1_x >= n || pos2_x >= n || pos1_y >= m || pos2_y >= m) {
+                println("$moveCnt")
+                isComplete = true
+                break
+            }
+
+            if (pos1Visit[pos1_x][pos1_y]) continue
+            if (pos2Visit[pos2_x][pos2_y]) continue
+
+            //#에 걸리면 동일한 값으로 backTracking
+            if (arr[pos1_x][pos1_y] == "#" && arr[pos2_x][pos2_y] != "#") {
+                queue.apply {
+                    pos1Visit[pos1.x][pos1.y] = true
+                    pos2Visit[pos2_x][pos2_y] = true
+                    offer(pos1)
+                    offer(pos2.copy(x = pos2_x, y = pos2_y))
+                }
+            } else if (arr[pos1_x][pos1_y] != "#" && arr[pos2_x][pos2_y] == "#") {
+                queue.apply {
+                    pos1Visit[pos1_x][pos1_y] = true
+                    pos2Visit[pos2.x][pos2.y] = true
+                    offer(pos1.copy(x = pos1_x, y = pos1_y))
+                    offer(pos2)
+                }
+            } else if (arr[pos1_x][pos1_y] == "#" && arr[pos2_x][pos2_y] == "#") {
+                queue.apply {
+                    pos1Visit[pos1.x][pos1.y] = true
+                    pos2Visit[pos2.x][pos2.y] = true
+                    offer(pos1)
+                    offer(pos2)
+                }
+            } else {
+                queue.apply {
+                    pos1Visit[pos1_x][pos1_y] = true
+                    pos2Visit[pos2_x][pos2_y] = true
+                    offer(pos1.copy(x = pos1_x, y = pos1_y))
+                    offer(pos2.copy(x = pos2_x, y = pos2_y))
+                }
+            }
+        }
+        moveCnt++
+    }
+
+    if (!isComplete) println("-1")
 }
 
 private fun backTracking(

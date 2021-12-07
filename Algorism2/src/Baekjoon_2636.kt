@@ -75,6 +75,7 @@ fun main() {
             arr[i][j] = scan.nextInt()
         }
     }
+    val test = 0
 
     Baekjoon_2636().apply {
         this.n = n

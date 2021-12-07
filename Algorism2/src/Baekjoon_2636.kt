@@ -70,7 +70,6 @@ fun main() {
     val m = scan.nextInt()
 
     val arr = MutableList(n) { MutableList(m) { 0 } }
-    val visitList = MutableList(n) { MutableList(m) { false } }
     for (i in 0 until n) {
         for (j in 0 until m) {
             arr[i][j] = scan.nextInt()

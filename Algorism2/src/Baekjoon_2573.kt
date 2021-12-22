@@ -1,7 +1,7 @@
 import java.util.*
 import kotlin.math.max
 
-
+/** https://www.acmicpc.net/problem/2573 */
 class Baekjoon_2573 {
 
     private val cx = listOf<Int>(-1, 0, 1, 0)

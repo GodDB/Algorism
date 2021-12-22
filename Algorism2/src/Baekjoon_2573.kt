@@ -1,73 +1,92 @@
 import java.util.*
+import kotlin.math.max
+
 
 class Baekjoon_2573 {
 
-    private val cx = listOf(-1, 0, 1, 0)
-    private val cy = listOf(0, -1, 0, 1)
+    private val cx = listOf<Int>(-1, 0, 1, 0)
+    private val cy = listOf<Int>(0, -1, 0, 1)
 
     var n = 0
     var m = 0
 
-    fun passAYear(arr: MutableList<MutableList<Int>>, x: Int, y: Int) {
-        if (arr[x][y] == 0) return
+    fun bfs(arr: MutableList<MutableList<Int>>) {
+        val queue: Queue<Point30> = LinkedList()
+        val visitList = MutableList(n) { MutableList(m) { false } }
 
-        for (i in 0 until 4) {
-            val newX = cx[i] + x
-            val newY = cy[i] + y
+        for (i in 0 until n) {
+            for (j in 0 until m) {
+                if (arr[i][j] != 0) continue
+                if (visitList[i][j]) continue
 
-            if (newX < 0 || newX >= n || newY < 0 || newY >= m) continue
-            if (arr[newX][newY] == 0 && arr[x][y] > 0) {
-                arr[x][y] -= 1
+                queue.offer(Point30(i, j))
+                visitList[i][j] = true
             }
         }
-    }
 
-    fun checkTwoSplit(arr: MutableList<MutableList<Int>>): Boolean {
-        val visitList = MutableList(n) { MutableList(m) { false } }
-        var level = 0
+        while (queue.isNotEmpty()) {
+            val point = queue.poll()
 
-        arr.print("before")
-        arr.forEachIndexed { i, list ->
-            list.forEachIndexed { j, value ->
-                if(level >= 2) return true
-                if (!visitList[i][j] && arr[i][j] != 0) {
-                    visitList[i][j] = true
-                    arr[i][j] = ++level
-                    dfsImpl(arr, visitList, i, j, level)
+            for (k in 0 until 4) {
+                val newX = point.x + cx[k]
+                val newY = point.y + cy[k]
+
+                if (newX < 0 || newX >= n || newY < 0 || newY >= m) continue
+                if (visitList[newX][newY]) continue
+                if (arr[newX][newY] == 1) {
+                    arr[newX][newY] = 0
+                    visitList[newX][newY] = true
+                } else if (arr[newX][newY] != 0) {
+                    arr[newX][newY] = max(arr[newX][newY] - 1, 0)
+                    if (arr[newX][newY] == 0) visitList[newX][newY] = true
+                } else {
+                    queue.offer(Point30(newX, newY))
+                    visitList[newX][newY] = true
                 }
             }
         }
-        arr.print("after")
-        return false
+
     }
 
-    private fun dfsImpl(
-        arr: MutableList<MutableList<Int>>,
-        visitList: MutableList<MutableList<Boolean>>,
-        x: Int,
-        y: Int,
-        level: Int
-    ) {
-        for (i in 0 until 4) {
-            val newX = cx[i] + x
-            val newY = cy[i] + y
-
-            if (newX < 0 || newX >= n || newY < 0 || newY >= m) continue
-            if(arr[newX][newY] == 0) continue
-            if (visitList[newX][newY]) continue
-            arr[newX][newY] = level
-            visitList[newX][newY] = true
-            dfsImpl(arr, visitList, newX, newY, level)
+    fun checkEmpty(arr: List<List<Int>>): Boolean {
+        for (i in 0 until n) {
+            for (j in 0 until m) {
+                if (arr[i][j] != 0) return false
+            }
         }
+        return true
     }
 
-    fun MutableList<MutableList<Int>>.deepCopy(): MutableList<MutableList<Int>> {
-        val arr = mutableListOf<MutableList<Int>>()
+    fun checkSplit(arr: List<List<Int>>): Int {
+        var count = 0
+        val visitList = MutableList(n) { MutableList(m) { false } }
+        val queue: Queue<Point30> = LinkedList()
+        for (i in 0 until n) {
+            for (j in 0 until m) {
+                if (count >= 2) return count
+                if (arr[i][j] == 0) continue
+                if (visitList[i][j]) continue
+                queue.offer(Point30(i, j))
+                visitList[i][j] = true
+                count++
+                while (queue.isNotEmpty()) {
+                    val point = queue.poll()
 
-        this.forEach {
-            arr.add(it.toMutableList())
+                    for (z in 0 until 4) {
+                        val newX = point.x + cx[z]
+                        val newY = point.y + cy[z]
+
+                        if (arr[newX][newY] == 0) continue
+                        if (newX < 0 || newX >= n || newY < 0 || newY >= m) continue
+                        if (visitList[newX][newY]) continue
+
+                        visitList[newX][newY] = true
+                        queue.offer(Point30(newX, newY))
+                    }
+                }
+            }
         }
-        return arr
+        return count
     }
 }
 
@@ -77,8 +96,8 @@ fun main() {
     val m = scan.nextInt()
     val arr = MutableList(n) { MutableList(m) { 0 } }
 
-    for (i in 0 until n) {
-        for (j in 0 until m) {
+    repeat(n) { i ->
+        repeat(m) { j ->
             arr[i][j] = scan.nextInt()
         }
     }
@@ -87,23 +106,19 @@ fun main() {
         this.n = n
         this.m = m
     }.run {
-        for (z in 0 until 40) {
-            if(checkTwoSplit(arr.deepCopy())) {
-                println(z)
-                return
-            }
-            for (i in n/2 until n) {
-                for (j in m/2 until m) {
-                    passAYear(arr, i, j)
-                }
-            }
+        var result = 0
 
-            for(i in n/2 downTo 0) {
-                for(j in m/2 downTo 0) {
-                    passAYear(arr, i, j)
-                }
+        while (true) {
+            if (checkEmpty(arr)) {
+                return println(0)
+            } else if (checkSplit(arr) >= 2) {
+                return println(result)
+            } else {
+                result += 1
+                bfs(arr)
             }
         }
-        println(0)
     }
 }
+
+data class Point30(val x: Int, val y: Int)

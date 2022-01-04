@@ -2,6 +2,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.*
 
+/**  https://www.acmicpc.net/problem/3020 */
 class Baekjoon_3020 {
 
     // targetValue가 oddList보다 크면 부딪힌다. (홀수)

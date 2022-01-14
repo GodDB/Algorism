@@ -1,4 +1,4 @@
-import java.util.HashMap
+
 import javax.crypto.Cipher
 import javax.crypto.Mac
 import javax.crypto.SecretKey
@@ -7,24 +7,8 @@ import javax.crypto.spec.SecretKeySpec
 
 
 fun main() {
-
-
-    HashMap
-
 }
 
-
-//java 7 이하
-fun hash(_h: Int): Int {
-    var h = _h
-    h = h xor (h ushr 20 xor (h ushr 12))
-    return h xor (h ushr 7) xor (h ushr 4)
-}
-
-// java 8 이상
-fun hash(value: Any): Int {
-    return value.hashCode() xor (value.hashCode() ushr 16)
-}
 
 object Encryptor {
     private const val MAIN_ALGORISM = "AES"

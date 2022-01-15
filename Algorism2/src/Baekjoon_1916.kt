@@ -1,8 +1,7 @@
 import java.util.*
 import kotlin.math.min
 
-class Baekjoon_1916 {
-}
+/** https://www.acmicpc.net/problem/1916 */
 
 private var minCost = Int.MAX_VALUE
 

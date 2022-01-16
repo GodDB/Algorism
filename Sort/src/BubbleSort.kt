@@ -3,8 +3,8 @@ import BubbleSort.bubbleSort
 object BubbleSort {
 
     fun MutableList<Int>.bubbleSort() {
-        for (i in 0 until this.size - 1) {
-            for (j in 0 until this.size - 1) {
+        for (i in 0 until this.size) {
+            for (j in 0 until this.size - 1 - i) {
                 if (this[j] > this[j + 1]) {
                    this.swap(j, j+1)
                 }

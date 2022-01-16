@@ -1,6 +1,6 @@
-import SelectionSort.insertionSort
+import InsertSort.insertionSort
 
-object SelectionSort {
+object InsertSort {
 
     fun MutableList<Int>.insertionSort() {
         for(i in 1 until this.size) {

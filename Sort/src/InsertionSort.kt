@@ -1,8 +1,8 @@
-import SelectionSort.selectionSort
+import SelectionSort.insertionSort
 
 object SelectionSort {
 
-    fun MutableList<Int>.selectionSort() {
+    fun MutableList<Int>.insertionSort() {
         for(i in 1 until this.size) {
             var j = i-1
             val key = this[i]
@@ -20,6 +20,6 @@ object SelectionSort {
 fun main() {
 
     val list = mutableListOf<Int>(9,8,4,3,3,5,1,1)
-    list.selectionSort()
+    list.insertionSort()
     println(list)
 }
